@@ -13,10 +13,10 @@ const configuration = new Configuration({
 });
 
 // Heroku boiler plate
-// var express = require('express');
-// var app = express();
-// app.get('/', (req, res) => res.send('indie-game-genie discord bot'))
-// app.listen(process.env.PORT || 5000);
+var express = require('express');
+var app = express();
+app.get('/', (req, res) => res.send('indie-game-genie discord bot'))
+app.listen(process.env.PORT || 5000);
 
 
 // Open AI
