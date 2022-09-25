@@ -6,20 +6,21 @@ const utils = require('./utils.js');
 const jsdom = require("jsdom");
 const https = require('https');
 const axios = require('axios');
+const igdb = require('igdb-api-node').default;
 const { Configuration, OpenAIApi } = require("openai");
 const configuration = new Configuration({
     apiKey: process.env.OPENAI_KEY,
 });
 
 // Heroku boiler plate
-var express = require('express');
-var app = express();
+// var express = require('express');
+// var app = express();
+// app.get('/', (req, res) => res.send('indie-game-genie discord bot'))
+// app.listen(process.env.PORT || 5000);
+
 
 // Open AI
 const openai = new OpenAIApi(configuration);
-
-// IGDB
-const igdb = require('igdb-api-node').default;
 
 // Twitch
 var twitch =
@@ -92,18 +93,18 @@ function clearArchive()
 {
     archive.clear();
     const epsilon = 100;
-    setTimeout(arguments.callee, (config.gameAge * 1000 * 3600) + epsilon); // clear archive every two hours
+    setTimeout(arguments.callee, (config.gameHoursAgo * 1000 * 3600) + epsilon); // clear archive every two hours
 }
 
-async function updateIndieGames()
+async function updateIndieGames(hoursAgo)
 {
     igdbClient = igdb(twitch.id, twitch.token);    
 
-    time = utils.getHoursAgo(config.gameAge);
-    response = await igdbClient
-    .where(`created_at < ${time.getTime()}`) // filter the results
-    .where(`genres = (${config.category})`) // indie games
-    .sort('first_release_date', 'desc')
+    time = utils.getHoursAgo(hoursAgo);
+    response = await igdbClient    
+    .where(`created_at > ${Math.floor(time.getTime() / 1000)} & genres = (${config.category})`) // filter the results    
+    .sort('created_at', 'desc')
+    .limit(config.limit)
     .fields(['*', 'name'])
     .request('/games'); // execute the query and return a response object        
 
@@ -111,16 +112,16 @@ async function updateIndieGames()
     {
         if(!archive.has(game.id))
         {
+            createdDate = new Date(game.created_at * 1000);
+            console.log(createdDate);
             archive.add(game.id);
             await gameComment(game, 0);
         }
     }
     
-    app.get('/', (req, res) => res.send('indie-game-genie discord bot'))
-    app.listen(process.env.PORT || 5000);
     // repeat every 5 second
     // twitch will allow you to do 4 per second but this is enough
-    setTimeout(arguments.callee, config.refreshRate * 1000);
+    setTimeout(arguments.callee, config.refresh * 1000, config.gameHoursAgo);
 }
 
 (async () => {
@@ -128,7 +129,7 @@ async function updateIndieGames()
         `https://id.twitch.tv/oauth2/token?client_id=${twitch.id}&client_secret=${twitch.secret}&grant_type=client_credentials`);
     twitch.token = response.data.access_token;
     clearArchive();
-    await updateIndieGames();
+    await updateIndieGames(config.gameHoursAgoStart);
 })()
 
 

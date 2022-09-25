@@ -1,6 +1,8 @@
 {
-    "refreshRate" : 5,
-    "gameAge" : 1,  
+    "refresh" : 5,    
+    "gameHoursAgo" : 1,
+    "gameHoursAgoStart" : 6,
+    "limit" : 100,
     "category": 32,
     "channel" : "1023027638102659193",
     "prompt" : "Funny remark about the game \"%NAME%\"",
