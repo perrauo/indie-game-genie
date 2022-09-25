@@ -14,9 +14,6 @@ const configuration = new Configuration({
 // Heroku boiler plate
 var express = require('express');
 var app = express();
-app.get('/', (req, res) => res.send('indie-game-genie discord bot'))
-app.listen(process.env.PORT || 5000);
-
 
 // Open AI
 const openai = new OpenAIApi(configuration);
@@ -119,6 +116,8 @@ async function updateIndieGames()
         }
     }
     
+    app.get('/', (req, res) => res.send('indie-game-genie discord bot'))
+    app.listen(process.env.PORT || 5000);
     // repeat every 5 second
     // twitch will allow you to do 4 per second but this is enough
     setTimeout(arguments.callee, config.refreshRate * 1000);
