@@ -5,6 +5,7 @@ const config = require('./config.json');
 const utils = require('./utils.js');
 const jsdom = require("jsdom");
 const https = require('https');
+const http = require('http');
 const axios = require('axios');
 const igdb = require('igdb-api-node').default;
 const { Configuration, OpenAIApi } = require("openai");
@@ -15,7 +16,7 @@ const configuration = new Configuration({
 // Heroku boiler plate
 var express = require('express');
 var app = express();
-app.get('/', (req, res) => res.send('indie-game-genie discord bot'))
+app.get('/', (req, res) => res.send(`${config.appName} discord bot`))
 app.listen(process.env.PORT || 5000);
 
 
@@ -132,6 +133,30 @@ async function updateIndieGames(hoursAgo)
     await updateIndieGames(config.gameHoursAgoStart);
 })()
 
+
+function startKeepAlive() {
+    setInterval(function() {
+        var options = {
+            host: `${config.appName}.herokuapp.com`,
+            port: 80,
+            path: '/'
+        };
+        http.get(options, function(res) {
+            res.on('data', function(chunk) {
+                try {
+                    // optional logging... disable after it's working
+                    console.log("HEROKU RESPONSE: " + chunk);
+                } catch (err) {
+                    console.log(err.message);
+                }
+            });
+        }).on('error', function(err) {
+            console.log("Error: " + err.message);
+        });
+    }, 20 * 60 * 1000); // load every 20 minutes
+}
+
+startKeepAlive();
 
 
 
