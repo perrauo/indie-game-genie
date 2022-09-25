@@ -1,2 +1,2 @@
-# indie-games-genie
-Indie games announcement bot for discord
+# Indie Game Genie
+Indie game announcements bot for Discord
