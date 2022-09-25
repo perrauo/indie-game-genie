@@ -11,10 +11,20 @@ const configuration = new Configuration({
     apiKey: process.env.OPENAI_KEY,
 });
 
+// Heroku boiler plate
+var express = require('express');
+var app = express();
+app.get('/', (req, res) => res.send('indie-game-genie discord bot'))
+app.listen(process.env.PORT || 5000);
+
+
+// Open AI
 const openai = new OpenAIApi(configuration);
 
+// IGDB
 const igdb = require('igdb-api-node').default;
 
+// Twitch
 var twitch =
 {
     id: process.env.TWITCH_ID,
