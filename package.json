@@ -1,0 +1,32 @@
+{
+
+    "name": "indie-games-genie",
+
+    "version": "0.0.1",
+
+    "description": "Bot which collects news about latest indie game releases.",
+
+    "main": "bot.js",
+
+    "author": "Oli",
+
+    "dependencies": {
+
+        "axios": "^0.27.2",
+
+        "cheerio": "^1.0.0-rc.12",
+
+        "discord.io": "https://github.com/izy521/discord.io",
+
+        "igdb-api-node": "^5.0.1",
+
+        "jsdom": "^20.0.0",
+
+        "openai": "^3.0.0",
+
+        "winston": "^3.8.2"
+
+    }
+
+}
+
