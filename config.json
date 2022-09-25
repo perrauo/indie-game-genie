@@ -2,7 +2,7 @@
     "appName" : "indie-game-genie",
     "refresh" : 5,    
     "gameHoursAgo" : 1,
-    "gameHoursAgoStart" : 7,
+    "gameHoursAgoStart" : 2,
     "limit" : 15,
     "category": 32,
     "channel" : "1023027638102659193",

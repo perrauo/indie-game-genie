@@ -103,7 +103,8 @@ async function updateIndieGames(hoursAgo)
 
     time = utils.getHoursAgo(hoursAgo);
     response = await igdbClient    
-    .where(`created_at > ${Math.floor(time.getTime() / 1000)} & genres = (${config.category})`) // filter the results    
+    // .where(`created_at > ${Math.floor(time.getTime() / 1000)} & genres = (${config.category})`) // filter the results
+    .where(`created_at > ${Math.floor(time.getTime() / 1000)}`) // filter the results
     .sort('created_at', 'desc')
     .limit(config.limit)
     .fields(['*', 'name'])
