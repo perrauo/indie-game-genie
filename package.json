@@ -18,6 +18,8 @@
 
         "discord.io": "https://github.com/izy521/discord.io",
 
+        "dotenv": "^16.0.2",
+
         "igdb-api-node": "^5.0.1",
 
         "jsdom": "^20.0.0",

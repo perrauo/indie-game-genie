@@ -224,3 +224,4 @@ lerna-debug.log
 Thumbs.db
 
 env.txt
+.env
