@@ -1,5 +1,5 @@
 require('dotenv').config();
-const Discord = require('discord.io');
+const Discord = require('./discord.io');
 const logger = require('winston');
 const config = require('./config.json');
 const utils = require('./utils.js');
