@@ -72,7 +72,7 @@ async function gameComment(game, count)
         comment = comment.replace(/(\r\n|\n|\r)/gm, "");
         comment = comment.replace(/^["'](.+(?=["']$))["']$/, '$1');
         bot.sendMessage({
-            to: `${config.channel}`,
+            to: config.channel,
             message: `${comment}\n${game.url}`        
         });
     }

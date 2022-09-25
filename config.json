@@ -2,7 +2,7 @@
     "refreshRate" : 5,
     "gameAge" : 1,  
     "category": 32,
-    "channel" : 1023027638102659193,
+    "channel" : "1023027638102659193",
     "prompt" : "Funny remark about the game \"%NAME%\"",
     "model" : "text-davinci-002"
 }
