@@ -1,7 +1,6 @@
 # Indie Game Genie
 Indie game announcements bot for Discord
 
-
 # Discord.io fix
   * The following was broken inside of discord.io. Had to settle with temporary fix. Let me know if there is a better solution.
 ```
