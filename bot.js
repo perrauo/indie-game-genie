@@ -99,26 +99,33 @@ function clearArchive()
 
 async function updateIndieGames(hoursAgo)
 {
-    igdbClient = igdb(twitch.id, twitch.token);    
-
-    time = utils.getHoursAgo(hoursAgo);
-    response = await igdbClient    
-    // .where(`created_at > ${Math.floor(time.getTime() / 1000)} & genres = (${config.category})`) // filter the results
-    .where(`created_at > ${Math.floor(time.getTime() / 1000)}`) // filter the results
-    .sort('created_at', 'desc')
-    .limit(config.limit)
-    .fields(['*', 'name'])
-    .request('/games'); // execute the query and return a response object        
-
-    for ([key, game] of Object.entries(response.data))
+    try 
     {
-        if(!archive.has(game.id))
+        igdbClient = igdb(twitch.id, twitch.token);    
+
+        time = utils.getHoursAgo(hoursAgo);
+        response = await igdbClient    
+        // .where(`created_at > ${Math.floor(time.getTime() / 1000)} & genres = (${config.category})`) // filter the results
+        .where(`created_at > ${Math.floor(time.getTime() / 1000)}`) // filter the results
+        .sort('created_at', 'desc')
+        .limit(config.limit)
+        .fields(['*', 'name'])
+        .request('/games'); // execute the query and return a response object        
+
+        for ([key, game] of Object.entries(response.data))
         {
-            createdDate = new Date(game.created_at * 1000);
-            console.log(createdDate);
-            archive.add(game.id);
-            await gameComment(game, 0);
+            if(!archive.has(game.id))
+            {
+                createdDate = new Date(game.created_at * 1000);
+                console.log(createdDate);
+                archive.add(game.id);
+                await gameComment(game, 0);
+            }
         }
+    }
+    catch(e)
+    {
+        console.log(`Unexpected error occured: ${e}`);
     }
     
     // repeat every 5 second
