@@ -5,7 +5,7 @@
     "gameHoursAgoStart" : 2,
     "limit" : 15,
     "category": 32,
-    "channel" : "1023027638102659193",
+    "channel" : "1020467458794070056",
     "prompt" : "Funny remark about the game \"%NAME%\"",
     "model" : "text-davinci-002"
 }
