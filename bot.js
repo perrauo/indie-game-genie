@@ -132,6 +132,7 @@ async function updateIndieGames(hoursAgo)
                 createdDate = new Date(game.created_at * 1000);
                 console.log(createdDate);
                 archive.add(game.id);
+                archiveNames.add(game.name);
                 await gameComment(game, 0);
                 changed = true;
             }
