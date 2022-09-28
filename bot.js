@@ -88,13 +88,25 @@ async function gameComment(game, count)
 }
 
 archive = new Set(); // do not repeat games we have talked about in the past
+archiveNames = new Set(); // for some reason, some games would display twice.
+archivesClearRequested = false;
 
 // Clear archive periodically every hour
-function clearArchive()
+function clearArchives()
 {
     archive.clear();
-    const epsilon = 100;
-    setTimeout(arguments.callee, (config.gameHoursAgo * 1000 * 3600) + epsilon); // clear archive every two hours
+    archiveNames.clear();
+    archivesClearRequested = false;
+}
+
+function clearArchivesWithDelay()
+{
+    if(!archivesClearRequested)
+    {
+        archivesClearRequested = true;
+        const epsilon = 100;
+        setTimeout(clearArchives, (config.gameHoursAgo * 1000 * 3600) + epsilon); // clear archive every two hours        
+    }
 }
 
 async function updateIndieGames(hoursAgo)
@@ -112,15 +124,22 @@ async function updateIndieGames(hoursAgo)
         .fields(['*', 'name'])
         .request('/games'); // execute the query and return a response object        
 
+        changed = false;
         for ([key, game] of Object.entries(response.data))
         {
-            if(!archive.has(game.id))
+            if(!archive.has(game.id) && !archiveNames.has(game.name))
             {
                 createdDate = new Date(game.created_at * 1000);
                 console.log(createdDate);
                 archive.add(game.id);
                 await gameComment(game, 0);
+                changed = true;
             }
+        }
+
+        if(changed)
+        {
+            clearArchivesWithDelay();
         }
     }
     catch(e)
@@ -137,7 +156,6 @@ async function updateIndieGames(hoursAgo)
     response = await axios.post(
         `https://id.twitch.tv/oauth2/token?client_id=${twitch.id}&client_secret=${twitch.secret}&grant_type=client_credentials`);
     twitch.token = response.data.access_token;
-    clearArchive();
     await updateIndieGames(config.gameHoursAgoStart);
 })()
 
