@@ -1,6 +1,9 @@
 # Indie Game Genie
 Indie game announcements bot for Discord
 
+![image](https://github.com/perrauo/indie-game-genie/assets/24371247/273c632c-0cca-4537-b1e1-9ea1b1a49aae)
+
+
 # Discord.io fix
   * The following was broken inside of discord.io. Had to settle with temporary fix. Let me know if there is a better solution.
 
